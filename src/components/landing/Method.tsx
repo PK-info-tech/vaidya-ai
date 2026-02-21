@@ -1,40 +1,81 @@
 import { motion } from "framer-motion";
 
+const LockIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth="1.5">
+    <rect x="5" y="11" width="14" height="10" rx="2" />
+    <path d="M8 11V7a4 4 0 1 1 8 0v4" />
+    <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+  </svg>
+);
+
+const BrainNetworkIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth="1.5">
+    <circle cx="12" cy="4" r="2" />
+    <circle cx="5" cy="12" r="2" />
+    <circle cx="19" cy="12" r="2" />
+    <circle cx="12" cy="20" r="2" />
+    <path d="M12 6v4M7 12h4m2 0h4M12 14v4" strokeDasharray="2 2" />
+    <path d="M7 10l3-4M17 10l-3-4M7 14l3 4M17 14l-3 4" strokeDasharray="2 2" opacity="0.5" />
+  </svg>
+);
+
+const RevealIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth="1.5">
+    <rect x="2" y="4" width="8" height="16" rx="1.5" />
+    <rect x="14" y="4" width="8" height="16" rx="1.5" />
+    <path d="M10 12h4" strokeDasharray="2 2" />
+    <path d="M12 10v4" strokeDasharray="2 2" />
+  </svg>
+);
+
+const DisagreementIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth="1.5">
+    <path d="M9 3L5 7l4 4" />
+    <path d="M15 13l4 4-4 4" />
+    <path d="M5 7h8a4 4 0 0 1 4 4v2" />
+    <path d="M19 17h-8a4 4 0 0 1-4-4v-2" />
+  </svg>
+);
+
+const EscalateIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" stroke="currentColor" strokeWidth="1.5">
+    <path d="M12 19V5" />
+    <path d="M5 12l7-7 7 7" />
+    <circle cx="12" cy="2" r="1" fill="currentColor" />
+    <path d="M4 22h16" strokeDasharray="3 3" opacity="0.5" />
+  </svg>
+);
+
 const steps = [
   {
-    num: 1,
-    title: "Doctor uploads and locks their assessment",
-    desc: "Upload scans, reports, or notes. Then speak, type, or show your diagnosis. Your assessment is locked before AI sees anything.",
-    tag: "Assessment Locked · Immutable",
-    tagColor: "primary",
+    icon: <LockIcon />,
+    title: "Doctor locks assessment",
+    desc: "Upload scans and commit your diagnosis — before AI sees anything.",
+    tag: "Immutable · No Anchoring Bias",
   },
   {
-    num: 2,
-    title: "Three AI models analyze independently — and debate",
-    desc: "MedSAM, nnU-Net, and BiomedCLIP analyze the case in parallel. Where they disagree, a synthesizer model reasons through the conflict.",
-    tag: "Multi-model Debate",
-    tagColor: "accent",
+    icon: <BrainNetworkIcon />,
+    title: "Three models debate",
+    desc: "MedSAM, nnU-Net, BiomedCLIP analyze in parallel. Disagreements are reasoned through.",
+    tag: "Independent · Multi-model",
   },
   {
-    num: 3,
-    title: "Parallel reveal — both assessments shown simultaneously",
-    desc: "Doctor and AI results appear side by side for the first time. Agreement builds confidence. Disagreement surfaces error-prone cases.",
-    tag: "Neither saw the other first",
-    tagColor: "primary",
+    icon: <RevealIcon />,
+    title: "Parallel reveal",
+    desc: "Both results appear side by side for the first time. Disagreement surfaces error.",
+    tag: "Neither Saw the Other First",
   },
   {
-    num: 4,
-    title: "Structured disagreement resolution",
-    desc: "When the AI disagrees, it explains why — highlighting the specific finding with the image region marked. Revising is one click.",
+    icon: <DisagreementIcon />,
+    title: "Structured resolution",
+    desc: "AI explains why it disagrees — specific finding, image region marked. One-click revise.",
     tag: "Full Audit Trail",
-    tagColor: "accent",
   },
   {
-    num: 5,
-    title: "High-stakes cases escalate to senior review",
-    desc: "Cases above a disagreement threshold are automatically flagged for a senior specialist via Vaidya's telemedicine network.",
-    tag: "SLA-backed Escalation",
-    tagColor: "primary",
+    icon: <EscalateIcon />,
+    title: "Senior escalation",
+    desc: "High-disagreement cases auto-flag for specialist review via telemedicine.",
+    tag: "SLA-backed",
   },
 ];
 
@@ -55,51 +96,78 @@ const Method = () => {
             <br />
             <span className="text-gradient-primary">AI in parallel.</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            The doctor commits independently, the AI analyzes independently, and both are revealed together. Disagreement is the signal.
+          <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
+            The doctor commits independently. The AI analyzes independently. Both are revealed together.
           </p>
         </motion.div>
 
-        {/* Animated vertical flow */}
-        <div className="relative max-w-3xl mx-auto">
-          {/* Connecting line */}
+        {/* Visual flow — horizontal on desktop, vertical on mobile */}
+        <div className="relative max-w-5xl mx-auto">
+          {/* Horizontal connecting line (desktop) */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="hidden lg:block absolute top-[52px] left-[10%] right-[10%] h-px origin-left"
+            style={{ background: "linear-gradient(90deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.15))" }}
+          />
+
+          {/* Vertical connecting line (mobile) */}
           <motion.div
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="absolute left-6 lg:left-8 top-0 bottom-0 w-px origin-top"
-            style={{ background: "linear-gradient(180deg, hsl(160 84% 39% / 0.5), hsl(160 84% 39% / 0.05))" }}
+            className="lg:hidden absolute left-6 top-0 bottom-0 w-px origin-top"
+            style={{ background: "linear-gradient(180deg, hsl(var(--primary) / 0.4), hsl(var(--primary) / 0.05))" }}
           />
 
-          <div className="space-y-12">
+          {/* Desktop: horizontal cards */}
+          <div className="hidden lg:grid grid-cols-5 gap-4">
+            {steps.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className="group relative flex flex-col items-center text-center"
+              >
+                {/* Icon node */}
+                <div className="relative z-10 w-[104px] h-[104px] rounded-2xl bg-card border border-primary/20 flex items-center justify-center mb-5 group-hover:border-primary/40 transition-colors glow-border">
+                  <div className="text-primary">{step.icon}</div>
+                </div>
+
+                <h3 className="font-display text-sm font-semibold text-foreground mb-2 leading-snug">{step.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-3">{step.desc}</p>
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium border border-primary/15 bg-primary/5 text-primary">
+                  {step.tag}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mobile: vertical list */}
+          <div className="lg:hidden space-y-10">
             {steps.map((step, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="relative flex gap-6 lg:gap-8"
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="relative flex gap-5"
               >
-                {/* Node */}
                 <div className="relative z-10 shrink-0">
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-2xl bg-card border border-primary/20 flex items-center justify-center glow-border">
-                    <span className="font-display text-lg lg:text-xl font-bold text-primary">{step.num}</span>
+                  <div className="w-12 h-12 rounded-xl bg-card border border-primary/20 flex items-center justify-center glow-border">
+                    <div className="text-primary scale-75">{step.icon}</div>
                   </div>
                 </div>
-
-                {/* Content */}
-                <div className="pt-2 pb-2">
-                  <h3 className="font-display text-lg lg:text-xl font-semibold text-foreground mb-2">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">{step.desc}</p>
-                  <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${
-                      step.tagColor === "primary"
-                        ? "border-primary/20 bg-primary/5 text-primary"
-                        : "border-accent/20 bg-accent/5 text-accent"
-                    }`}
-                  >
+                <div className="pt-1">
+                  <h3 className="font-display text-base font-semibold text-foreground mb-1">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-2">{step.desc}</p>
+                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium border border-primary/15 bg-primary/5 text-primary">
                     {step.tag}
                   </span>
                 </div>
